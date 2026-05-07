@@ -637,21 +637,71 @@ body::before {
 .clock-svg { width: clamp(220px, 30vw, 300px); height: auto; }
 .clock-track { fill: none; stroke: rgba(245,239,226,0.12); stroke-width: 6; }
 .clock-fill { fill: none; stroke: #E8A582; stroke-width: 6; stroke-linecap: round; stroke-dasharray: 1; stroke-dashoffset: 1; transition: stroke-dashoffset 1.6s cubic-bezier(.2,.7,.2,1); }
-.clock-text {
-  font-family: var(--serif);
-  font-weight: 500;
-  font-size: 38px;
-  fill: #FAF5EA;
-  letter-spacing: -0.01em;
+
+/* PRAZOS — bienal + quinquenal */
+.prazos {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 18px;
+  margin: 8px 0 44px;
+  max-width: 720px;
 }
-.clock-sub {
+@media (max-width: 720px) { .prazos { grid-template-columns: 1fr; } }
+.prazo-card {
+  position: relative;
+  padding: 26px 26px 24px;
+  border: 1px solid rgba(232,165,130,0.22);
+  background: linear-gradient(180deg, rgba(245,239,226,0.04) 0%, rgba(245,239,226,0.015) 100%);
+  border-radius: 14px;
+  overflow: hidden;
+}
+.prazo-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0;
+  width: 3px;
+  height: 100%;
+  background: linear-gradient(180deg, #E8A582 0%, transparent 90%);
+}
+.prazo-tag {
+  display: inline-block;
   font-family: var(--sans);
-  font-size: 11px;
-  font-weight: 500;
+  font-size: 10.5px;
+  font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.22em;
-  fill: rgba(245,239,226,0.7);
+  color: #E8A582;
+  margin-bottom: 12px;
 }
+.prazo-num {
+  font-family: var(--serif);
+  font-style: italic;
+  font-weight: 500;
+  font-size: clamp(40px, 5.4vw, 60px);
+  line-height: 1;
+  color: #FAF5EA;
+  letter-spacing: -0.02em;
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+.prazo-num small {
+  font-size: clamp(13px, 1.3vw, 16px);
+  font-style: normal;
+  font-weight: 500;
+  font-family: var(--sans);
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  color: rgba(245,239,226,0.65);
+}
+.prazo-desc {
+  font-size: 14.5px;
+  line-height: 1.55;
+  color: rgba(245,239,226,0.78);
+  margin: 0;
+}
+.prazo-desc strong { color: #FAF5EA; font-weight: 600; }
 
 /* ============== PROCESSO ============== */
 .processo-grid {
@@ -1320,10 +1370,28 @@ body::before {
 <section class="urgencia">
   <div class="container">
     <p class="section-eyebrow reveal">Atenção: o tempo está correndo</p>
-    <h2 class="reveal delay-1">Você tem até <em>5 anos</em> para reivindicar.</h2>
+    <h2 class="reveal delay-1">São <em>dois prazos</em>. E ambos correm contra você.</h2>
     <p class="urgencia-lead reveal delay-2">
-      A Justiça do Trabalho dá um prazo: você pode pedir os direitos dos últimos cinco anos a partir do dia que sair do trabalho — ou até dois anos depois de já ter saído. Cada mês que passa sem ação, é um mês de direito que prescreve.
+      A Justiça do Trabalho não dá tempo ilimitado. Existem duas regras de prazo que andam juntas — e cada mês que passa sem agir é direito que evapora.
     </p>
+
+    <div class="prazos reveal delay-3">
+      <div class="prazo-card">
+        <span class="prazo-tag">Prazo bienal</span>
+        <div class="prazo-num">2 <small>anos</small></div>
+        <p class="prazo-desc">
+          É o tempo que você tem <strong>depois de sair do trabalho</strong> para entrar com a ação. Passou de 2 anos? Você não pode mais reclamar nada.
+        </p>
+      </div>
+      <div class="prazo-card">
+        <span class="prazo-tag">Prazo quinquenal</span>
+        <div class="prazo-num">5 <small>anos</small></div>
+        <p class="prazo-desc">
+          Mesmo entrando dentro do prazo, a Justiça só devolve os direitos <strong>dos últimos 5 anos</strong> antes da ação. O que ficou para trás, infelizmente, prescreve.
+        </p>
+      </div>
+    </div>
+
     <div class="urgencia-content">
       <div>
         <p class="reveal delay-3" style="font-size:clamp(15px,1.4vw,17px);color:rgba(245,239,226,0.8);line-height:1.65;margin-bottom:28px;">
@@ -1338,8 +1406,11 @@ body::before {
         <svg class="clock-svg" viewBox="0 0 200 200">
           <circle class="clock-track" cx="100" cy="100" r="86"/>
           <circle id="clockFill" class="clock-fill" cx="100" cy="100" r="86" transform="rotate(-90 100 100)"/>
-          <text class="clock-text" x="100" y="100" text-anchor="middle" dominant-baseline="middle">5 anos</text>
-          <text class="clock-sub" x="100" y="125" text-anchor="middle">prazo legal</text>
+          <g transform="translate(100 100)">
+            <line x1="0" y1="0" x2="0" y2="-46" stroke="#E8A582" stroke-width="3" stroke-linecap="round"/>
+            <line x1="0" y1="0" x2="32" y2="0" stroke="#E8A582" stroke-width="2.5" stroke-linecap="round" opacity="0.7"/>
+            <circle cx="0" cy="0" r="4" fill="#E8A582"/>
+          </g>
         </svg>
       </div>
     </div>
@@ -1355,7 +1426,7 @@ body::before {
       O caminho é claro e você não fica sozinho em nenhum momento. A burocracia toda fica conosco — você só precisa contar a sua história.
     </p>
     <div class="processo-grid">
-      <div class="passo reveal delay-1"><span class="passo-num">1</span><h3>Conversa inicial</h3><p>15 minutos no WhatsApp. Você conta o que aconteceu e a gente avalia gratuitamente se há caso.</p></div>
+      <div class="passo reveal delay-1"><span class="passo-num">1</span><h3>Conversa inicial</h3><p>15 minutos no WhatsApp. Você conta o que aconteceu, e a gente avalia gratuitamente se há possibilidade de ingressar com uma ação judicial.</p></div>
       <div class="passo reveal delay-2"><span class="passo-num">2</span><h3>Reunião de provas</h3><p>Junto com você, organizamos as conversas, comprovantes e testemunhas. Sem complicação.</p></div>
       <div class="passo reveal delay-3"><span class="passo-num">3</span><h3>Ação na Justiça</h3><p>Entramos com o pedido na Justiça do Trabalho. Tudo é online, você nem precisa sair de casa.</p></div>
       <div class="passo reveal delay-4"><span class="passo-num">4</span><h3>Pagamento dos direitos</h3><p>Reconhecido o vínculo, você recebe FGTS, 13º, férias e demais direitos atrasados.</p></div>
@@ -1363,12 +1434,7 @@ body::before {
   </div>
 </section>
 
-<!-- AVALIAÇÕES GOOGLE -->
-<!--
-  TODO: Substituir os textos e nomes abaixo pelas avaliações reais do Google Meu Negócio.
-  Trocar também o link do CTA (procurar por: GOOGLE_BUSINESS_URL) para o link real do perfil.
-  Para o link real, abra https://www.google.com/business/ logado, vá no perfil e copie o link de "Compartilhar".
--->
+<!-- AVALIAÇÕES GOOGLE — reviews reais extraídos do perfil "ADVOGADOS BAGÉ / ROBAINA, XIMENDES & PAIVA ADVOGADOS" -->
 <section class="reviews" id="avaliacoes" aria-labelledby="reviews-title">
   <div class="container">
     <div class="reviews-head">
@@ -1389,10 +1455,10 @@ body::before {
           <span class="star"></span>
           <span class="star"></span>
         </div>
-        <p class="rating-meta"><strong>Avaliações reais</strong> de clientes no Google</p>
+        <p class="rating-meta"><strong>91 avaliações reais</strong> de clientes no Google</p>
       </div>
 
-      <a class="reviews-google" href="https://www.google.com/search?q=Bernar+Paiva+Advocacia" target="_blank" rel="noopener noreferrer" aria-label="Ver perfil no Google">
+      <a class="reviews-google" href="https://www.google.com/maps?cid=7590435534650666194" target="_blank" rel="noopener noreferrer" aria-label="Ver perfil no Google Meu Negócio">
         <svg class="google-g" viewBox="0 0 48 48" aria-hidden="true">
           <path fill="#FFC107" d="M43.6 20.1H42V20H24v8h11.3c-1.6 4.6-6 8-11.3 8-6.6 0-12-5.4-12-12s5.4-12 12-12c3.1 0 5.8 1.2 7.9 3.1l5.7-5.7C34 6.1 29.3 4 24 4 12.9 4 4 12.9 4 24s8.9 20 20 20 20-8.9 20-20c0-1.3-.1-2.6-.4-3.9z"/>
           <path fill="#FF3D00" d="M6.3 14.7l6.6 4.8C14.7 15.1 19 12 24 12c3.1 0 5.8 1.2 7.9 3.1l5.7-5.7C34 6.1 29.3 4 24 4 16.3 4 9.7 8.3 6.3 14.7z"/>
@@ -1407,126 +1473,78 @@ body::before {
     </div>
 
     <div class="reviews-marquee" aria-label="Carrossel de avaliações">
-      <!-- Cards duplicados para criar loop infinito sem cortes -->
+      <!-- Cards reais (3) duplicados para criar loop infinito sem cortes -->
       <div class="reviews-track" id="reviewsTrack">
-        <!-- ===== AVALIAÇÕES (substituir pelos reviews reais do Google) ===== -->
+
         <article class="review-card" style="--c:#B8451D;">
           <div class="review-stars-mini" aria-label="5 estrelas">★★★★★</div>
-          <p class="review-quote">Trabalhei sete anos numa empresa sem registro. Achava que tinha perdido tudo. O Dr. Bernar conduziu o processo do começo ao fim com muita paciência — recebi FGTS, 13º e férias atrasadas. Indico de olhos fechados.</p>
+          <p class="review-quote">O escritório possui uma estrutura moderna e uma equipe multidisciplinar que atua em diferentes áreas do direito, oferecendo soluções eficazes e um atendimento personalizado. Destaco o trabalho excepcional do Dr. Bernar Paiva, marcado por sua confiabilidade, dedicação e excelência profissional.</p>
           <div class="review-author">
             <div class="review-avatar">L</div>
             <div class="review-meta">
-              <strong>Larissa M.</strong>
-              <span>há 2 meses</span>
+              <strong>Lara Morelli</strong>
+              <span>há 7 meses · Google</span>
             </div>
           </div>
         </article>
 
         <article class="review-card" style="--c:#7A4A2C;">
           <div class="review-stars-mini" aria-label="5 estrelas">★★★★★</div>
-          <p class="review-quote">Profissional sério e atencioso. Explicou cada passo de forma simples e nunca me deixou sem resposta. Reconhecimento de vínculo de quase quatro anos. Mudou a minha vida financeira.</p>
+          <p class="review-quote">Excelente o trabalho deste escritório, atenção e o interesse com os problemas dos clientes, dá uma sensação de confiança. Sou muito grato por uma mediação que fizeram para mim. O resultado favorável foi muito além do que eu esperava. Muito obrigado.</p>
           <div class="review-author">
-            <div class="review-avatar">C</div>
+            <div class="review-avatar">A</div>
             <div class="review-meta">
-              <strong>Carlos A.</strong>
-              <span>há 4 meses</span>
+              <strong>Aldrovando Munhos Bittencourt</strong>
+              <span>há 6 meses · Google</span>
             </div>
           </div>
         </article>
 
         <article class="review-card" style="--c:#A8472D;">
           <div class="review-stars-mini" aria-label="5 estrelas">★★★★★</div>
-          <p class="review-quote">Eu trabalhava como diarista numa loja, mas era praticamente fixa. Quando me dispensaram, não recebi nada. O escritório me orientou desde o primeiro contato pelo WhatsApp. Saí com tudo o que era meu por direito.</p>
+          <p class="review-quote">Ótimo escritório com advogados super competentes, resolveram uma causa que estava estagnada há anos! Recomendo</p>
           <div class="review-author">
-            <div class="review-avatar">J</div>
+            <div class="review-avatar">P</div>
             <div class="review-meta">
-              <strong>Joana P.</strong>
-              <span>há 5 meses</span>
+              <strong>Pablo Pêgas</strong>
+              <span>há 7 meses · Google</span>
             </div>
           </div>
         </article>
 
-        <article class="review-card" style="--c:#5C3A23;">
-          <div class="review-stars-mini" aria-label="5 estrelas">★★★★★</div>
-          <p class="review-quote">Atendimento humano e técnico ao mesmo tempo. O Dr. Bernar pegou o meu caso quando dois outros advogados já tinham desistido. Conseguiu o reconhecimento de vínculo de seis anos. Honestidade e competência.</p>
-          <div class="review-author">
-            <div class="review-avatar">M</div>
-            <div class="review-meta">
-              <strong>Maria E.</strong>
-              <span>há 6 meses</span>
-            </div>
-          </div>
-        </article>
-
-        <article class="review-card" style="--c:#B8451D;">
-          <div class="review-stars-mini" aria-label="5 estrelas">★★★★★</div>
-          <p class="review-quote">Recomendo a todos os colegas que trabalharam por fora. O processo demorou menos do que eu imaginava e o resultado superou a expectativa. Comunicação rápida e clara em todas as etapas.</p>
-          <div class="review-author">
-            <div class="review-avatar">R</div>
-            <div class="review-meta">
-              <strong>Rodrigo S.</strong>
-              <span>há 8 meses</span>
-            </div>
-          </div>
-        </article>
-
-        <!-- DUPLICATA — necessária para loop infinito sem cortes (não editar manualmente) -->
+        <!-- DUPLICATA — necessária para o loop infinito sem cortes -->
         <article class="review-card" aria-hidden="true" style="--c:#B8451D;">
           <div class="review-stars-mini">★★★★★</div>
-          <p class="review-quote">Trabalhei sete anos numa empresa sem registro. Achava que tinha perdido tudo. O Dr. Bernar conduziu o processo do começo ao fim com muita paciência — recebi FGTS, 13º e férias atrasadas. Indico de olhos fechados.</p>
+          <p class="review-quote">O escritório possui uma estrutura moderna e uma equipe multidisciplinar que atua em diferentes áreas do direito, oferecendo soluções eficazes e um atendimento personalizado. Destaco o trabalho excepcional do Dr. Bernar Paiva, marcado por sua confiabilidade, dedicação e excelência profissional.</p>
           <div class="review-author">
             <div class="review-avatar">L</div>
             <div class="review-meta">
-              <strong>Larissa M.</strong>
-              <span>há 2 meses</span>
+              <strong>Lara Morelli</strong>
+              <span>há 7 meses · Google</span>
             </div>
           </div>
         </article>
 
         <article class="review-card" aria-hidden="true" style="--c:#7A4A2C;">
           <div class="review-stars-mini">★★★★★</div>
-          <p class="review-quote">Profissional sério e atencioso. Explicou cada passo de forma simples e nunca me deixou sem resposta. Reconhecimento de vínculo de quase quatro anos. Mudou a minha vida financeira.</p>
+          <p class="review-quote">Excelente o trabalho deste escritório, atenção e o interesse com os problemas dos clientes, dá uma sensação de confiança. Sou muito grato por uma mediação que fizeram para mim. O resultado favorável foi muito além do que eu esperava. Muito obrigado.</p>
           <div class="review-author">
-            <div class="review-avatar">C</div>
+            <div class="review-avatar">A</div>
             <div class="review-meta">
-              <strong>Carlos A.</strong>
-              <span>há 4 meses</span>
+              <strong>Aldrovando Munhos Bittencourt</strong>
+              <span>há 6 meses · Google</span>
             </div>
           </div>
         </article>
 
         <article class="review-card" aria-hidden="true" style="--c:#A8472D;">
           <div class="review-stars-mini">★★★★★</div>
-          <p class="review-quote">Eu trabalhava como diarista numa loja, mas era praticamente fixa. Quando me dispensaram, não recebi nada. O escritório me orientou desde o primeiro contato pelo WhatsApp. Saí com tudo o que era meu por direito.</p>
+          <p class="review-quote">Ótimo escritório com advogados super competentes, resolveram uma causa que estava estagnada há anos! Recomendo</p>
           <div class="review-author">
-            <div class="review-avatar">J</div>
+            <div class="review-avatar">P</div>
             <div class="review-meta">
-              <strong>Joana P.</strong>
-              <span>há 5 meses</span>
-            </div>
-          </div>
-        </article>
-
-        <article class="review-card" aria-hidden="true" style="--c:#5C3A23;">
-          <div class="review-stars-mini">★★★★★</div>
-          <p class="review-quote">Atendimento humano e técnico ao mesmo tempo. O Dr. Bernar pegou o meu caso quando dois outros advogados já tinham desistido. Conseguiu o reconhecimento de vínculo de seis anos. Honestidade e competência.</p>
-          <div class="review-author">
-            <div class="review-avatar">M</div>
-            <div class="review-meta">
-              <strong>Maria E.</strong>
-              <span>há 6 meses</span>
-            </div>
-          </div>
-        </article>
-
-        <article class="review-card" aria-hidden="true" style="--c:#B8451D;">
-          <div class="review-stars-mini">★★★★★</div>
-          <p class="review-quote">Recomendo a todos os colegas que trabalharam por fora. O processo demorou menos do que eu imaginava e o resultado superou a expectativa. Comunicação rápida e clara em todas as etapas.</p>
-          <div class="review-author">
-            <div class="review-avatar">R</div>
-            <div class="review-meta">
-              <strong>Rodrigo S.</strong>
-              <span>há 8 meses</span>
+              <strong>Pablo Pêgas</strong>
+              <span>há 7 meses · Google</span>
             </div>
           </div>
         </article>
@@ -1534,9 +1552,8 @@ body::before {
     </div>
 
     <p class="reviews-cta reveal">
-      <!-- GOOGLE_BUSINESS_URL: substituir pelo link real do perfil no Google Meu Negócio -->
-      <a href="https://www.google.com/search?q=Bernar+Paiva+Advocacia" target="_blank" rel="noopener noreferrer">
-        Ver todas as avaliações no Google
+      <a href="https://www.google.com/maps?cid=7590435534650666194" target="_blank" rel="noopener noreferrer">
+        Ver todas as 91 avaliações no Google
         <span aria-hidden="true">→</span>
       </a>
     </p>
@@ -1578,7 +1595,7 @@ body::before {
   <div class="container">
     <h2 class="reveal">Conte sua história. <em>O resto, deixe com a gente.</em></h2>
     <p class="reveal delay-1">
-      Em 15 minutos no WhatsApp, você descobre se tem caso e quanto pode receber. Sem custo, sem compromisso, sem juridiquês.
+      Em 15 minutos no WhatsApp, você descobre se há possibilidade de ingressar com uma ação judicial e quanto pode receber. Sem custo, sem compromisso, sem juridiquês.
     </p>
     <a href="https://wa.me/5553999502729?text=Ol%C3%A1%2C%20trabalhei%20sem%20carteira%20assinada%20e%20quero%20avaliar%20meu%20caso" target="_blank" rel="noopener" class="btn-cta-final reveal delay-2" onclick="return gtag_report_conversion(this.href);">
       <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.6 6.3A7.85 7.85 0 0 0 12 4a7.94 7.94 0 0 0-6.8 12L4 20l4.1-1.1a7.94 7.94 0 0 0 3.9 1h0A7.94 7.94 0 0 0 17.6 6.3M12 18.5a6.6 6.6 0 0 1-3.4-.9l-.2-.1-2.4.6.6-2.3-.2-.2A6.6 6.6 0 1 1 18.6 12 6.6 6.6 0 0 1 12 18.5m3.7-4.9c-.2-.1-1.2-.6-1.4-.7s-.3-.1-.5.1-.5.7-.6.8-.3.1-.5 0a5.4 5.4 0 0 1-2.7-2.4c-.2-.4.2-.4.6-1.2a.4.4 0 0 0 0-.4c-.1-.1-.5-1.1-.6-1.5s-.3-.4-.5-.4h-.5a.9.9 0 0 0-.6.3 2.6 2.6 0 0 0-.8 1.9 4.4 4.4 0 0 0 1 2.4 10.1 10.1 0 0 0 3.9 3.4 13 13 0 0 0 1.3.5 3.1 3.1 0 0 0 1.4.1 2.4 2.4 0 0 0 1.5-1 1.8 1.8 0 0 0 .1-1c-.1-.1-.2-.2-.5-.3"/></svg>
