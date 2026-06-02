@@ -23,7 +23,7 @@
   gtag('js', new Date());
   gtag('config', 'AW-18122996753');
   function gtag_report_conversion(url) {
-    var callback = function () { if (typeof(url) != 'undefined') { window.location = url; } };
+    var callback = function () { if (typeof(url) != 'undefined') { window.open(url, '_blank', 'noopener'); } };
     gtag('event', 'conversion', {
       'send_to': 'AW-18122996753/-iM8CKOT568cEJH428FD',
       'event_callback': callback
@@ -1615,7 +1615,7 @@ body::before {
       </div>
       <div class="footer-col">
         <p class="footer-col-title">Contato</p>
-        <a href="https://wa.me/5553999502729" target="_blank" rel="noopener">WhatsApp · (53) 99950-2729</a>
+        <a href="https://wa.me/5553999502729" target="_blank" rel="noopener" onclick="return gtag_report_conversion(this.href);">WhatsApp · (53) 99950-2729</a>
         <p>Atendimento online em todo o Brasil</p>
       </div>
       <div class="footer-col">
